@@ -1,7 +1,31 @@
 const express = require('express')
+const mongoose = require('mongoose');
+
+
 const app = express()
-const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser')
+
+// ===================================
+
+
+//=================PUERTO=============
+const port = process.env.PORT || 3000;
+
+//==============ENTORNO===============
+const ubicacionPuerto = process.env.NODE_ENV || 'dev'
+
+//============BASE DE DATOS============
+let urlDB;
+if (ubicacionPuerto === 'dev') {
+    urlDB = 'mongodb://localhost:27017/cafe'
+} else {
+    urlDB = 'mongodb+srv://Vritco:lLEweY4hZEhw5XlV@cluster0-cnzwu.mongodb.net/test?retryWrites=true&w=majority'
+}
+
+
+// ===================================
+
+
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -9,41 +33,15 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.get('/usuario', function(req, res) {
-    res.json('get Usuario LOCAL!!!');
-});
+app.use(require('./routes/usuario'));
 
-app.post('/usuario', function(req, res) {
 
-    let body = req.body;
 
-    if (body.nombre === undefined) {
-
-        res.status(400).json({
-            ok: false,
-            mensaje: 'El nombre es necesario'
-        });
-
-    } else {
-        res.json({
-            persona: body
-        });
-    }
-
-});
-
-app.put('/usuario/:id', function(req, res) {
-
-    let id = req.params.id;
-
-    res.json({
-        id
+mongoose.connect(urlDB, { useNewUrlParser: true, useCreateIndex: true },
+    (err, res) => {
+        if (err) throw err;
+        console.log('Base de datos ONLINE')
     });
-});
-
-app.delete('/usuario', function(req, res) {
-    res.json('delete Usuario');
-});
 
 app.listen(port, () => {
     console.log(`Escuchando puerto ${ port }`);
