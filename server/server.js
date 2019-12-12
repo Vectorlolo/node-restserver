@@ -19,7 +19,7 @@ let urlDB;
 if (ubicacionPuerto === 'dev') {
     urlDB = 'mongodb://localhost:27017/cafe'
 } else {
-    urlDB = 'mongodb+srv://Vritco:lLEweY4hZEhw5XlV@cluster0-cnzwu.mongodb.net/test?retryWrites=true&w=majority'
+    urlDB = process.env.MONGO_URI;
 }
 
 
