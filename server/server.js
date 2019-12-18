@@ -15,18 +15,6 @@ const port = process.env.PORT || 3000;
 const ubicacionPuerto = process.env.NODE_ENV || 'dev'
 
 
-//==============ENTORNO===============
-//=======Vencimiento del token========
-//60 s 
-//60 min
-//24 h
-//30 d
-const duracionToken = (process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30)
-
-//========SEED de autenticacion========
-
-const SEEDToken = (process.env.SEED = process.env.SEED || 'este-es-el-seed-desarrollo')
-
 
 //============BASE DE DATOS============
 let urlDB;
@@ -64,7 +52,7 @@ app.listen(port, () => {
     console.log(`Escuchando puerto ${ port }`);
 })
 
-module.exports = {
+/* module.exports = {
     duracionToken,
     SEEDToken
-}
+} */
